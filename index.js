@@ -6,10 +6,15 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var osipaddress = process.env.OPENSHIFT_NODEJS_IP;
+var osport = process.env.OPENSHIFT_NODEJS_PORT;
+
+app.set('port', osport || 3000);
+app.set('ipaddress', osipaddress);
+
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
-
 io.on('connection', function(socket){
     console.log('a user connected');
     socket.broadcast.emit('hi');
@@ -33,6 +38,6 @@ io.on('connection', function(socket){
     });
 });
 
-http.listen(3000, function(){
-    console.log('listening on *:3000');
+app.listen(app.get('port'), app.get('ipaddress'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
 });
