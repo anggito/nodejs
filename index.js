@@ -15,6 +15,7 @@ app.set('ipaddress', osipaddress);
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
+
 io.on('connection', function(socket){
     console.log('a user connected');
     socket.broadcast.emit('hi');
@@ -38,6 +39,6 @@ io.on('connection', function(socket){
     });
 });
 
-app.listen(app.get('port'), app.get('ipaddress'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
+http.listen(3000, function(){
+    console.log('listening on *:3000');
 });
