@@ -1,10 +1,11 @@
 /**
  * Created by anggitowibisono2 on 5/23/2016.
  */
-var onlineClient = [];
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+
+var express = require('express');
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io').listen(server);
 
 var osipaddress = process.env.OPENSHIFT_NODEJS_IP;
 var osport = process.env.OPENSHIFT_NODEJS_PORT;
@@ -39,6 +40,4 @@ io.on('connection', function(socket){
     });
 });
 
-http.listen(3000, function(){
-    console.log('listening on *:3000');
-});
+server.listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP);
